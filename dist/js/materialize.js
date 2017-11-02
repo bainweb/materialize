@@ -1,8 +1,3 @@
-/*!
- * Materialize v0.100.2 (http://materializecss.com)
- * Copyright 2014-2017 Materialize
- * MIT License (https://raw.githubusercontent.com/Dogfalo/materialize/master/LICENSE)
- */
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -4826,6 +4821,7 @@ if (Vel) {
   $.fn.material_select = function (callback) {
     $(this).each(function () {
       var $select = $(this);
+      var $label = $select.parent().find('label');
 
       if ($select.hasClass('browser-default')) {
         return; // Continue to next (return false breaks out of entire loop)
@@ -4923,6 +4919,7 @@ if (Vel) {
               options.find('li').removeClass('active');
               $(this).toggleClass('active');
               $newSelect.val($(this).text());
+              $label.toggleClass('active', !!$(this).text());
             }
 
             activateOption(options, $(this));
@@ -4953,6 +4950,8 @@ if (Vel) {
       if (!$select.is(':disabled')) {
         $newSelect.dropdown({ 'hover': false });
       }
+
+      $label.toggleClass('active', !!sanitizedLabelHtml);
 
       // Copy tabindex
       if ($select.attr('tabindex')) {
@@ -4994,6 +4993,8 @@ if (Vel) {
         if (!multiple) {
           $(this).trigger('close');
           $(window).off('click.select');
+        } else {
+          $label.toggleClass('active', !!$newSelect.val());
         }
         options.find('li.selected').removeClass('selected');
       });

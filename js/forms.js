@@ -488,6 +488,7 @@
   $.fn.material_select = function (callback) {
     $(this).each(function(){
       var $select = $(this);
+      var $label = $select.parent().find('label');
 
       if ($select.hasClass('browser-default')) {
         return; // Continue to next (return false breaks out of entire loop)
@@ -585,6 +586,7 @@
               options.find('li').removeClass('active');
               $(this).toggleClass('active');
               $newSelect.val($(this).text());
+              $label.toggleClass('active', !!$(this).text());
             }
 
             activateOption(options, $(this));
@@ -615,6 +617,8 @@
       if (!$select.is(':disabled')) {
         $newSelect.dropdown({'hover': false});
       }
+      
+      $label.toggleClass('active', !!sanitizedLabelHtml);
 
       // Copy tabindex
       if ($select.attr('tabindex')) {
@@ -656,6 +660,8 @@
         if (!multiple) {
           $(this).trigger('close');
           $(window).off('click.select');
+        } else {
+          $label.toggleClass('active', !!$newSelect.val());
         }
         options.find('li.selected').removeClass('selected');
       });
